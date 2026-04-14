@@ -82,7 +82,6 @@ function crearParticulas() {
             p.style.fontSize = Math.random() * 15 + 15 + 'px';
         }
 
-        // Posición y animación
         p.style.left = Math.random() * 100 + 'vw';
         const duration = Math.random() * 3 + 4 + 's';
         p.style.animation = `floatUp ${duration} linear forwards`;
@@ -107,15 +106,18 @@ downloadBtn.addEventListener('click', () => {
     link.click();
 });
 document.addEventListener('click', (e) => {
-    
     if (!musicStarted && e.target.closest(".envelope-wrapper")) {
         fadeInMusic();
         musicStarted = true;
     }
 
-    if (e.target.matches(".envelope") || e.target.matches(".tap-right") || e.target.matches(".tap-left") || e.target.matches(".heart")) {
-        envelope.classList.toggle('flap');
-    } else if (e.target.matches(".envelope *")) {
+    if (e.target.closest(".heart")) {
+        if (!envelope.classList.contains("disable-envelope")) {
+            envelope.classList.toggle('flap');
+        }
+    }
+
+    if (e.target.closest(".letter") && envelope.classList.contains("flap")) {
         if (!letter.classList.contains('opened')) {
             letter.classList.add("letter-opening");
             setTimeout(() => {
@@ -126,6 +128,5 @@ document.addEventListener('click', (e) => {
             }, 500);
             envelope.classList.add("disable-envelope");
         }
-        
     }
 });
